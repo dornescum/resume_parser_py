@@ -1,12 +1,9 @@
 from flask import Flask, render_template, request
 import spacy
 import re
-import pdfminer
 from pdfminer.high_level import extract_text
 from pdfminer.pdfparser import PDFSyntaxError
 from pdfminer.pdfdocument import PDFTextExtractionNotAllowed
-import os
-import tempfile
 from io import BytesIO
 
 app = Flask(__name__)
@@ -47,50 +44,61 @@ def parse_resume(resume_bytes):
     except (PDFSyntaxError, PDFTextExtractionNotAllowed):
         raise PDFSyntaxError("Invalid PDF file! Please upload a valid PDF file.")
 
-    # Preprocess the text
+    # trec prin text
     resume_text = resume_text.strip()
     resume_text = resume_text.lower()
 
-    # Process the resume text with spaCy
+    # folosesc spaCy
     doc = nlp(resume_text)
-    # print('doc :', doc)
-    # Initialize variables to store the extracted entities
     name = ""
     email = ""
     skills = []
-    skill_patterns = ["java", "c++", "html5", "css3", "scss", "bootstrap 4", "tailwind css",
-                      "javascript", "react js", "next js", "styled components", "jest test framework", "cypress",
-                      "postman",
-                      "angular", "ionic", "sqlite", "node js (express)", "mysql"]
-    test = []
+    skill_patterns = [
+        "java", "c++", "html5", "css3", "scss", "less", "sass", "bootstrap 4", "tailwind css",
+        "javascript", "typescript", "react js", "angular", "vue.js", "ember.js", "backbone.js",
+        "node.js", "express.js", "meteor.js", "next.js", "styled components", "redux",
+        "jest", "mocha", "cypress", "selenium", "postman", "swagger",
+        "django", "flask", "fastapi", "rails", "sinatra", "laravel", "codeigniter",
+        "mongodb", "mysql", "postgresql", "sqlite", "oracle", "sql server",
+        "git", "svn", "mercurial", "docker", "kubernetes", "aws", "azure", "google cloud",
+        "jenkins", "travis ci", "circleci", "github actions",
+        "tensorflow", "keras", "pytorch", "scikit-learn", "pandas", "numpy", "opencv",
+        "webpack", "babel", "gulp", "grunt", "rollup",
+        "storybook", "storybook", "storybook", "storybook", "storybook",
+        "karma", "jasmine", "chai", "enzyme", "react testing library", "testing library",
+        "webpack", "babel", "gulp", "grunt", "rollup",
+        "firebase", "auth0", "oauth", "jwt",
+        "rest api", "graphql", "soap",
+        "docker", "kubernetes", "aws", "azure", "google cloud",
+        "jenkins", "travis ci", "circleci", "github actions",
+        "unity", "unreal engine", "cocos2d", "godot",
+        "photoshop", "illustrator", "sketch", "figma", "zeplin",
+        "agile", "scrum", "kanban", "lean",
+        "data analysis", "data visualization", "data engineering", "data science",
+        "machine learning", "deep learning", "artificial intelligence",
+        "blockchain", "smart contracts", "ethereum", "solidity",
+        "iot", "arduino", "raspberry pi", "esp8266", "esp32"
+    ]
 
-    # Entity Recognition for Name and Email
+    # cauta in prima rand
+    lines = resume_text.split("\n")
+    if lines:
+        name = lines[0].strip()
+
+    # cauta nume
     for ent in doc.ents:
-        print('ent2: ', ent.text)
-        print('ent3: ', ent)
-        # if ent.label_ == "Name" and not name:
-        #     name = ent.text
-        # elif ent.label_ == "email" and not email:
-        #     email = ent.text
-        # elif ent.label_ == "skills" and not skills:
-        #     print('ent label', ent.label_)
-        #     test.append(ent.text)
         if "name" in ent.text.lower() and not name:
             name = ent.text.strip()
-            print('name', name)
-        elif "email" in ent.text.lower() and not email:
-            email = ent.text.strip()
-            print('email : ', email)
 
     for pattern in skill_patterns:
         if pattern in resume_text:
             skills.append(pattern)
-        # for pattern in skill_patterns:
-        #     if pattern in ent.text:
-        #         print('patern : ', pattern)
-        #         skills.append(pattern)
-    # print('name : ', name)
-    # print('email : ', email)
+
+    # Use regular expression to find email
+    email_pattern = r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+    email_match = re.search(email_pattern, resume_text)
+    if email_match:
+        email = email_match.group()
 
     # Prepare the results as a dictionary
     parsed_result = {
@@ -98,6 +106,8 @@ def parse_resume(resume_bytes):
         "Email": email,
         "Skills": skills
     }
+
+    print('rezultatul final ', parsed_result)
     return parsed_result
 
 

@@ -5,7 +5,16 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>Resume Parsing Result</h1>
-    <pre>{{ parsed_resume }}</pre>
+<!--    <h1>Resume Parsing Result</h1>-->
+<!--    <pre>{{ parsed_resume }}</pre>-->
+    <p>Name: {{ parsed_resume['Name'] }}</p>
+    <p>Email: {{ parsed_resume['Email'] }}</p>
+<!--    <p>Skills: {{ parsed_resume['Skills'] | join(', ') }}</p>-->
+
+    <ul>
+        {% for skill in parsed_resume['Skills'] %}
+            <li>{{ skill }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
