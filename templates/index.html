@@ -2,15 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+       <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Junior front end developer, Javascript, Html5, Css3, Sccs, React js, Angular, Node" name="description"/>
+    <meta content="Vanilla Javascript " name="keywords"/>
+    <meta content="Mihai Dornescu" name="author"/>
+    <meta content="telephone=no" name="format-detection">
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <title>Title</title>
 </head>
+
 <body>
+<div class="flex flex-col min-h-screen relative">
+    <div class="py-8"></div>
+    <div class="md:container md:mx-auto bg-gray-200 pt-8 pb-4">
+        <div class="flex justify-center items-center pt-10">
+             <h1 class="text-3xl font-bold underline">Resume Parser</h1>
+        </div>
+
+        <form method="post" action="/" enctype="multipart/form-data" class="flex justify-center items-center pt-20">
+            <input type="file" name="resume_file" accept=".pdf" onchange="checkResumeFile()">
+            <br>
+            <input type="submit" value="Go" class="px-8 py-2 ml-8 bg-black text-white hover:bg-white
+            hover:text-black hover:shadow-2xl cursor-pointer
+            transition duration-300 ease-out py-4"  id="submit">
+        </form>
+    </div>
+
+
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('1')
+        function checkResumeFile() {
+            console.log('2')
+            const resumeFileInput = document.querySelector('input[name="resume_file"]');
+            // const submitButton = document.querySelector('input[name="parse_resume"]');
+            const submitButton = document.getElementById('submit');
+            console.log('r', resumeFileInput)
+            console.log('s', submitButton)
+            if (resumeFileInput.value === '') {
+                submitButton.disabled = true;
+                submitButton.classList.add('hidden');
+            } else {
+                submitButton.disabled = false;
+                submitButton.classList.remove('hidden');
+            }
+        }
+
+        // Call the function once to set the initial state of the "submit" button
+        checkResumeFile();
+
+        // Attach the event listener to the "resume_file" input
+        const resumeFileInput = document.querySelector('input[name="resume_file"]');
+        resumeFileInput.addEventListener('change', checkResumeFile);
+    });
+</script>
 
 </body>
- <h1>Resume Parser</h1>
-   <form method="post" action="/" enctype="multipart/form-data" >
-        <input type="file" name="resume_file" accept=".pdf" >
-        <br>
-        <input type="submit" value="Parse Resume">
-    </form>
+
+
 </html>

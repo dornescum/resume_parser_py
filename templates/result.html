@@ -2,19 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+      <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Junior front end developer, Javascript, Html5, Css3, Sccs, React js, Angular, Node" name="description"/>
+    <meta content="Vanilla Javascript " name="keywords"/>
+    <meta content="Mihai Dornescu" name="author"/>
+    <meta content="telephone=no" name="format-detection">
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <title>Title</title>
 </head>
 <body>
-<!--    <h1>Resume Parsing Result</h1>-->
-<!--    <pre>{{ parsed_resume }}</pre>-->
-    <p>Name: {{ parsed_resume['Name'] }}</p>
-    <p>Email: {{ parsed_resume['Email'] }}</p>
-<!--    <p>Skills: {{ parsed_resume['Skills'] | join(', ') }}</p>-->
+<div class="md:container md:mx-auto bg-gray-200 pt-8 pb-4">
+    <div class="flex justify-center items-center">
+        <p class="pr-8">Name: {{ parsed_resume['Name'] }}</p>
+    <p class="pl-8">Email: {{ parsed_resume['Email'] }}</p>
+    </div>
 
-    <ul>
+
+    <ul class="m-1">
         {% for skill in parsed_resume['Skills'] %}
-            <li>{{ skill }}</li>
+        <li class="m-1 p-1">{{ skill }}</li>
         {% endfor %}
     </ul>
+</div>
+
 </body>
 </html>

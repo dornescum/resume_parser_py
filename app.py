@@ -6,6 +6,7 @@ from pdfminer.pdfparser import PDFSyntaxError
 from pdfminer.pdfdocument import PDFTextExtractionNotAllowed
 from io import BytesIO
 
+
 app = Flask(__name__)
 
 # Load the English language model
@@ -21,7 +22,7 @@ def index():
 
         resume_file = request.files["resume_file"]
 
-        # Check if a file was selected
+        # verificare selectare
         if resume_file.filename == "":
             return "No selected file!"
 
@@ -100,14 +101,12 @@ def parse_resume(resume_bytes):
     if email_match:
         email = email_match.group()
 
-    # Prepare the results as a dictionary
     parsed_result = {
         "Name": name,
         "Email": email,
         "Skills": skills
     }
 
-    print('rezultatul final ', parsed_result)
     return parsed_result
 
 
