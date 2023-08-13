@@ -25,3 +25,6 @@ This project utilizes the Flask web framework along with various Python packages
 
 ![Alt Text](./resume_parser.webp)
 ![Alt Text](./result.webp)
+
+# pip install -r requirements.txt
+

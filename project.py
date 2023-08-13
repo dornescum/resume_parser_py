@@ -41,7 +41,7 @@ def index():
 
 def parse_resume(resume_bytes):
     try:
-        resume_text = extract_text(BytesIO(resume_bytes))
+        resume_text = extract_text(BytesIO(resume_bytes.encode("utf-8")))
     except (PDFSyntaxError, PDFTextExtractionNotAllowed):
         raise PDFSyntaxError("Invalid PDF file! Please upload a valid PDF file.")
 
@@ -95,7 +95,6 @@ def parse_resume(resume_bytes):
         if pattern in resume_text:
             skills.append(pattern)
 
-    # Use regular expression to find email
     email_pattern = r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
     email_match = re.search(email_pattern, resume_text)
     if email_match:
